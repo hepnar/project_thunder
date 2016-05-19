@@ -1,0 +1,18 @@
+Software:
+    3D API:
+        Vulkan(API) next gen opengl
+        MESA 3D http://www.mesa3d.org/intro.html
+    Python api:
+        https://wiki.python.org/moin/PyGame
+        http://pyopengl.sourceforge.net/
+
+Story:
+Jsi koruni princ/princezna.
+Jsi na vojenskem cviceni s vesmirnou lodi.
+Tvuj otec kral je zavrazden a jeden z generalu za podpory sousedniho cisarstvi nastoli totalitni rezim.
+Je zavrazdena i tva matka a sestra/bratr je ve vezeni.
+Jsi napaden a tva vesmirna lod je tezce poskozena.
+Prchnes pryc a schanis podporu na zachranu sestry/bratra a prevzeni zpet sveho kralovstvi.
+Jsi nucen prodat lod a zacit se zivit jako freelacer(casem ji muzes koupit zpet).
+Tvoji nepratele na tebe vypisou odmenu(muzes nektere bounty huntery podplatit).
+
