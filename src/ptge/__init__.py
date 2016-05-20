@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
 
+import sys
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
-import sys
 
 class Ptge():
     ESCAPE = '\033'
@@ -38,88 +38,96 @@ class Ptge():
            # Register the drawing function with glut, BUT in Python land, at least using PyOpenGL, we need to
         # set the function pointer and invoke a function to actually register the callback, otherwise it
         # would be very much like the C version of the code.
-        glutDisplayFunc (DrawGLScene)
+        glutDisplayFunc(self._draw_scene)
 
         # Uncomment this line to get full screen.
         #glutFullScreen()
 
         # When we are doing nothing, redraw the scene.
-        glutIdleFunc(DrawGLScene)
+        glutIdleFunc(self._draw_scene)
 
         # Register the function called when our window is resized.
-        glutReshapeFunc (ReSizeGLScene)
+        glutReshapeFunc(self._resize_scene)
 
         # Register the function called when the keyboard is pressed.
-        #glutKeyboardFunc (keyPressed)
+        #glutKeyboardFunc(keyPressed)
 
         # Initialize our window.
-        InitGL(640, 480)
+        self._init_scene(640, 480)
 
         # Start Event Processing Engine
         glutMainLoop()
 
+    def _draw_scene(self):
+        # Clear The Screen And The Depth Buffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glLoadIdentity()                    # Reset The View
 
-# A general OpenGL initialization function.  Sets all of the initial parameters.
-def InitGL(Width, Height):                # We call this right after our OpenGL window is created.
-    glClearColor(0.0, 0.0, 0.0, 0.0)    # This Will Clear The Background Color To Black
-    glClearDepth(1.0)                    # Enables Clearing Of The Depth Buffer
-    glDepthFunc(GL_LESS)                # The Type Of Depth Test To Do
-    glEnable(GL_DEPTH_TEST)                # Enables Depth Testing
-    glShadeModel(GL_SMOOTH)                # Enables Smooth Color Shading
+        glTranslatef(0.0, 0.0, -6.0)
 
-    glMatrixMode(GL_PROJECTION)
-    glLoadIdentity()                    # Reset The Projection Matrix
-                                        # Calculate The Aspect Ratio Of The Window
-    gluPerspective(45.0, float(Width)/float(Height), 0.1, 100.0)
+        self._draw_wall()
 
-    glMatrixMode(GL_MODELVIEW)
+        #  since this is double buffered, swap the buffers to display what just got drawn.
+        glutSwapBuffers()
 
-# The function called when our window is resized (which shouldn't happen if you enable fullscreen, below)
-def ReSizeGLScene(Width, Height):
-    if Height == 0:                        # Prevent A Divide By Zero If The Window Is Too Small
-        Height = 1
+    def _draw_wall(self, center=(0.0,0.0,0.0), rotatiton=(0.0,0.0,0.0)):
+        size_x = 4
+        size_y = 4
+        start_x = size_x / 2.0
+        start_y = size_y / 2.0
+        for x in range(size_x):
+            step_x = 0.5 * x
+            for y in range(size_y):
+                step_y = 0.5 * y
+                self._draw_poligon((start_x-step_x, start_y-step_y, 0.0))
 
-    glViewport(0, 0, Width, Height)        # Reset The Current Viewport And Perspective Transformation
-    glMatrixMode(GL_PROJECTION)
-    glLoadIdentity()
-    gluPerspective(45.0, float(Width)/float(Height), 0.1, 100.0)
-    glMatrixMode(GL_MODELVIEW)
+    def _draw_poligon(self, center=(0.0,0.0,0.0), rotation=(0.0,0.0,0.0)):
+        """
+            metoda vykresli sestiuhelnik se stredem v center_{x,y,z}
+        """
+        glBegin(GL_POLYGON)                 # Start drawing a polygon
+        # doleva/doprava, nahoru/dolu, dopredu/dozadu
+        glVertex3f(center[0], center[1] + 0.5, center[2])
+        glVertex3f(center[0] + 0.5, center[1] + 0.25, center[2])
+        glVertex3f(center[0] + 0.5, center[1], center[2])
+        glVertex3f(center[0] + 0.5, center[1] - 0.25, center[2])
+        glVertex3f(center[0], center[1] - 0.5, center[2])
+        glVertex3f(center[0] - 0.5, center[1] - 0.25, center[2])
+        glVertex3f(center[0] - 0.5, center[1], center[2])
+        glVertex3f(center[0] - 0.5, center[1] + 0.25, center[2])
+        glEnd()                             # We are done with the polygon
 
-# The main drawing function.
-def DrawGLScene():
-    # Clear The Screen And The Depth Buffer
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-    glLoadIdentity()                    # Reset The View
+    # A general OpenGL initialization function.  Sets all of the initial parameters.
+    def _init_scene(self, Width, Height):                # We call this right after our OpenGL window is created.
+        glClearColor(0.0, 0.0, 0.0, 0.0)    # This Will Clear The Background Color To Black
+        glClearDepth(1.0)                    # Enables Clearing Of The Depth Buffer
+        glDepthFunc(GL_LESS)                # The Type Of Depth Test To Do
+        glEnable(GL_DEPTH_TEST)                # Enables Depth Testing
+        glShadeModel(GL_SMOOTH)                # Enables Smooth Color Shading
 
-    # Move Left 1.5 units and into the screen 6.0 units.
-    glTranslatef(-1.5, 0.0, -6.0)
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()                    # Reset The Projection Matrix
+                                            # Calculate The Aspect Ratio Of The Window
+        gluPerspective(45.0, float(Width)/float(Height), 0.1, 100.0)
 
-    # Draw a triangle
-    glBegin(GL_POLYGON)                 # Start drawing a polygon
-    glVertex3f(0.0, 1.0, 0.0)           # Top
-    glVertex3f(1.0, -1.0, 0.0)          # Bottom Right
-    glVertex3f(-1.0, -1.0, 0.0)         # Bottom Left
-    glEnd()                             # We are done with the polygon
+        glMatrixMode(GL_MODELVIEW)
+
+    # The function called when our window is resized (which shouldn't happen if you enable fullscreen, below)
+    def _resize_scene(self, Width, Height):
+        if Height == 0:                        # Prevent A Divide By Zero If The Window Is Too Small
+            Height = 1
+
+        glViewport(0, 0, Width, Height)        # Reset The Current Viewport And Perspective Transformation
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        gluPerspective(45.0, float(Width)/float(Height), 0.1, 100.0)
+        glMatrixMode(GL_MODELVIEW)
 
 
-    # Move Right 3.0 units.
-    glTranslatef(3.0, 0.0, 0.0)
-
-    # Draw a square (quadrilateral)
-    glBegin(GL_QUADS)                   # Start drawing a 4 sided polygon
-    glVertex3f(-1.0, 1.0, 0.0)          # Top Left
-    glVertex3f(1.0, 1.0, 0.0)           # Top Right
-    glVertex3f(1.0, -1.0, 0.0)          # Bottom Right
-    glVertex3f(-1.0, -1.0, 0.0)         # Bottom Left
-    glEnd()                             # We are done with the polygon
-
-    #  since this is double buffered, swap the buffers to display what just got drawn.
-    glutSwapBuffers()
-
-# The function called whenever a key is pressed. Note the use of Python tuples to pass in: (key, x, y)
-#def keyPressed(*args):
-#    # If escape is pressed, kill everything.
-#    if args[0] == ESCAPE:
-#        glutDestroyWindow(window)
-#        sys.exit()
+    # The function called whenever a key is pressed. Note the use of Python tuples to pass in: (key, x, y)
+    #def keyPressed(*args):
+    #    # If escape is pressed, kill everything.
+    #    if args[0] == ESCAPE:
+    #        glutDestroyWindow(window)
+    #        sys.exit()
 
