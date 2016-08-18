@@ -16,5 +16,32 @@ Prchnes pryc a schanis podporu na zachranu sestry/bratra a prevzeni zpet sveho k
 Jsi nucen prodat lod a zacit se zivit jako freelacer(casem ji muzes koupit zpet).
 Tvoji nepratele na tebe vypisou odmenu(muzes nektere bounty huntery podplatit).
 
+Soubojovy system:
+Dve lode jako ftl(lod ma vice pater)
+lod je mozno ruzne otazet vuci protivnikovy
+nepratelsko lod vidis jen ze smeru z ktereho je k tobe natocena
+souboj je realtime s moznosti pozastavit hru
+
+
+Implementace:
+vykreslovat pomoci maly ctvercu(mc)
+Postava je vysoka 5mc(nohy 2, telo 2, hlava 1)
+zakladni stavebni prvek je rovna ctvercova plocha o rozmerech 3x3x1 mc
+
+
 Packages:
 python3-opengl
+
+
+Postup:
+    - Vykresli lod a otexturuj:
+        Tvar:
+            1 patrova:
+
+                    x
+                    x
+                   xxx
+                  xxxxx
+                 xxxxxxx
+                xxxxxxxxx
+                  xxxxx
