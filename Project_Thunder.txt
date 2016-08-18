@@ -16,3 +16,5 @@ Prchnes pryc a schanis podporu na zachranu sestry/bratra a prevzeni zpet sveho k
 Jsi nucen prodat lod a zacit se zivit jako freelacer(casem ji muzes koupit zpet).
 Tvoji nepratele na tebe vypisou odmenu(muzes nektere bounty huntery podplatit).
 
+Packages:
+python3-opengl
