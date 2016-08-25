@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # rotating color cube 
 # Copyright (C) 2007  "Peter Roesch" <Peter.Roesch@fh-augsburg.de>
 #
@@ -11,7 +11,7 @@ try:
   from OpenGL.GL import *
   from OpenGL.GLU import *
 except:
-  print ''' Error: PyOpenGL not installed properly '''
+  print(''' Error: PyOpenGL not installed properly ''')
   sys.exit(  )
 
 import array
@@ -25,7 +25,7 @@ cIndices = array.array('B', [0, 3, 2, 1,  2, 3, 7, 6,  0, 4, 7, 3, \
   1, 2, 6, 5,  4, 5, 6, 7,  0, 1, 5, 4 ] )
 
 animationAngle = 0.0
-frameRate = 25
+frameRate = 30
 
 from time import sleep
 def animationStep( ):
@@ -56,7 +56,7 @@ def display(  ):
 
 def init(  ):
 	if not (glColorPointer and glVertexPointer and glDrawElements):
-		print ''' Error: no vertex array support'''
+		print(''' Error: no vertex array support''')
 		sys.exit( )
 	glClearColor ( 0, 0, 0, 0 )
 	glEnable(GL_DEPTH_TEST)
