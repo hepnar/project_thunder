@@ -17,11 +17,23 @@ class Ptge():
     # Number of the glut window.
     window = 0
     def __init__(self):
-        self.vertices = array.array('f', [ -1,-1,1, -1,1,1, 1,1,1, 1,-1,1,\
-                -1,-1,-1, -1,1,-1,  1,1,-1, 1,-1,-1 ] )
+        self.vertices = array.array('f', [-1,-1,1,
+                                          -1,1,1,
+                                          1,1,1,
+                                          1,-1,1,
+                                          -1,-1,-1,
+                                          -1,1,-1,
+                                          1,1,-1,
+                                          1,-1,-1 ] )
 
-        self.colors = array.array('f', [ 0, 0, 0,  1, 0, 0,  1, 1, 0,  0, 1,\
-                0, 0, 0, 1,  1, 0, 1,  1, 1, 1,  0, 1, 1] )
+        self.colors = array.array('f', [ 0, 0, 0,
+                                         1, 0, 0,
+                                         1, 1, 0,
+                                         0, 1, 0,
+                                         0, 0, 1,
+                                         1, 0, 1,
+                                         1, 1, 1,
+                                         0, 1, 1] )
 
         self.cIndices = array.array('B', [0, 3, 2, 1,  2, 3, 7, 6,  0, 4, 7, \
                 3, 1, 2, 6, 5,  4, 5, 6, 7,  0, 1, 5, 4 ] )
@@ -37,7 +49,6 @@ class Ptge():
         glutInitWindowSize(640, 480)
         glutInitWindowPosition(100, 100)
         glutCreateWindow("Project Thunder")
-
         glClearColor (0, 0, 0, 0)
         glEnable(GL_DEPTH_TEST)
         glShadeModel(GL_SMOOTH)
@@ -49,9 +60,15 @@ class Ptge():
 
     def _draw_scene(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+        #muzu zmensit vykreslovany obrazek v okne
+        glViewport(0, 0, 640, 640)
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        glOrtho(-2, 2, -2, 2, -2, 2)
+        #gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+        gluPerspective(90.0, 1.0, 0.1, 100.0)
+        #glOrtho - je vhodne pro 2D objekty (ukazatele zivotu atd...)
+        #aglOrtho(-2, 2, -2, 2, -2, 2)
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
         glRotatef(self.animationAngle, 1, 1, 1)
