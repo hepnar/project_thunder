@@ -17,10 +17,10 @@ class Ptge():
     # Number of the glut window.
     window = 0
     def __init__(self):
-        self.vertices = array.array('f', [-1,-1,1,
-                                          -1,1,1,
-                                          1,1,1,
-                                          1,-1,1,
+        self.vertices = array.array('f', [-1,-1,1, #vlevo dole predemnou
+                                          -1,1,1, #vlevo nahore predemnou
+                                          1,1,1, #vpravo nahore predemnou
+                                          1,-1,1, #vpravo dole predmnou
                                           -1,-1,-1,
                                           -1,1,-1,
                                           1,1,-1,
@@ -68,10 +68,10 @@ class Ptge():
         #gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
         gluPerspective(90.0, 1.0, 0.1, 100.0)
         #glOrtho - je vhodne pro 2D objekty (ukazatele zivotu atd...)
-        #aglOrtho(-2, 2, -2, 2, -2, 2)
+        glOrtho(-4, 4, -4, 4, 0.1, 100)
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
-        glRotatef(self.animationAngle, 1, 1, 1)
+        glRotatef(self.animationAngle, 1, 1, 0)
         glEnableClientState(GL_COLOR_ARRAY)
         glEnableClientState(GL_VERTEX_ARRAY)
         glColorPointer(3, GL_FLOAT, 0, self.colors.tostring())
